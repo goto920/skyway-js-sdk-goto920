@@ -274,6 +274,12 @@ class SFURoom extends Room {
   replaceStream(newStream) {
     this._localStream = newStream;
     this._negotiator.replaceStream(newStream);
+    this._negotiator._lastOffer = null;
+
+    const data = {
+      roomName: this.name,
+    };
+    this.emit(SFURoom.MESSAGE_EVENTS.offerRequest.key, data);
   }
 
   /**
