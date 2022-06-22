@@ -59,6 +59,25 @@ class SdpUtil {
     return this._addBandwidth(sdp, bandwidth, 'audio');
   }
 
+ /**
+   *  setOpusConfig(sdp); // by KG
+   */
+  setOpusConfig(sdp) {
+    const res = sdpTransform.parse(sdp);
+    const audioMedia = res.media.filter(m => m.type === 'audio');
+
+    audioMedia.forEach(m => {
+      const opusRtp = m.rtp.filter(rtp => rtp.codec === 'opus');
+      opusRtp.forEach(rtp => {
+        const opusFmtp = m.fmtp.find(fmtp => fmtp.payload === rtp.payload);
+        if (opusFmtp) opusFmtp.config = 'maxptime=10;stereo=1;useinbandfec=1';
+      });
+    });
+    return sdpTransform.write(res);
+  }
+  /* End added by KG */
+
+
   /**
    * Remove video codecs in SDP except argument's codec.
    * If the codec doesn't exist, throw error.

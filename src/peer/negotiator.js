@@ -167,6 +167,78 @@ class Negotiator extends EventEmitter {
     }
   }
 
+  /** new methods added by KG
+   *
+   */
+  async setBandwidth(newBandwidth) {
+//    logger.log('KG negotiator setBandwidth()');
+
+    this._audioBandwidth = newBandwidth.audio;
+    this._videoBandwidth = newBandwidth.video;
+
+    const offer = await this._makeOfferSdp();
+    this._setLocalDescription(offer);
+    this._isNegotiationAllowed = true;
+    this.emit(Negotiator.EVENTS.negotiationNeeded.key);
+  }
+
+  replaceTrack(oldTrack, newTrack) {
+//  logger.log('negotiator replaceTrack() called, pc', this._pc);
+    try {
+       const sender = this._pc
+        .getSenders()
+        .find(s => s.track.id === oldTrack.id);
+      if (sender) sender.replaceTrack(newTrack);
+     } catch (e) { logger.error(e);
+    }
+  }
+
+  async addTrack(newTrack, stream) {
+//    logger.log('KG NEGOTIATOR addTrack() called');
+    try {
+      this._pc.addTrack(newTrack, stream);
+      const offer = await this._makeOfferSdp();
+      this._setLocalDescription(offer);
+      this._isNegotiationAllowed = true;
+      this.emit(Negotiator.EVENTS.negotiationNeeded.key);
+    } catch(e) {
+      logger.error(e);
+    }
+    return;
+  }
+
+  async removeTrack(currentTrack) {
+//    logger.log('KG NEGOTOR removeTrack() called, pc', this._pc);
+    try {
+      const senders = this._pc.getSenders();
+
+      senders.forEach(s => {
+        if (s.track) {
+          if (s.track.id === currentTrack.id) {
+            logger.log('removed currentTrack, sender', currentTrack, s);
+            this._pc.removeTrack(s); s = null;
+          }
+        } else {
+          logger.log('removed sender without track', s);
+          this._pc.removeTrack(s); s = null;
+        }
+      });
+     const offer = await this._makeOfferSdp();
+      this._setLocalDescription(offer);
+      this._isNegotiationAllowed = true;
+      this.emit(Negotiator.EVENTS.negotiationNeeded.key);
+
+    } catch (e) {
+      logger.error(e);
+    }
+
+    return;
+  }
+
+  /* end new methods by KG */
+
+
+
   /**
    * Set remote description with remote Offer SDP, then create Answer SDP and emit it.
    * @param {object} [offerSdp] - An object containing Offer SDP.

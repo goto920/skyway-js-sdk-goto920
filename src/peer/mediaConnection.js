@@ -121,6 +121,38 @@ class MediaConnection extends Connection {
     this.localStream = newStream;
   }
 
+ /*
+   * new methods by KG
+   */
+
+  setBandwidth(newBandwidth) {
+//    logger.log('KG mediaConnection.setBandwidth()');
+    if (!this.open) return;
+    this._negotiator.setBandwidth(newBandwidth);
+  }
+
+  replaceTrack(oldTrack, newTrack) {
+    if (!this.open) return;
+    this._negotiator.replaceTrack(oldTrack, newTrack);
+  }
+
+ addTrack(newTrack) {
+    if (!this.open) return;
+    try {
+      if (this.localStream)
+        this._negotiator.addTrack(newTrack, this.localStream);
+    } catch (e) {
+      logger.error(e);
+    }
+  }
+
+ removeTrack(currentTrack) {
+    logger.log('KG mediaConnection removeTrack()');
+    if (!this.open) return;
+    this._negotiator.removeTrack(currentTrack);
+  }
+/* END added by KG */
+
   /**
    * Set up negotiator message handlers.
    * @private

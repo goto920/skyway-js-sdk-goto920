@@ -1,6 +1,6 @@
 # Adding some functionalities to SkyWay JS SDK
 
-[original README.md](./README.md)
+[original README.md](./README-original.md)
 
 ## Modify opus parameters in SDP Offer/Answer
 
@@ -29,7 +29,8 @@
 
 ## build
 Follow the instruction in the original README.md.
-Note: Use LTS version of Node.js (tested with v16.15.1)
-- node/18.2.0 did not work for me
+- npm install; npm run build
+- Note: Use LTS version of Node.js (tested with v16.15.1)
+	- node/18.2.0 did not work for me
 
 
