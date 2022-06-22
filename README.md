@@ -1,4 +1,4 @@
-# Adding some functionalities to SkyWay JS SDK
+# Adding some functionalities to SkyWay JS SDK (Experimental project)
 
 [original README.md](./README-original.md)
 
@@ -37,3 +37,37 @@ Follow the instruction in the original README.md.
 - use dist/skyway.js or skyway.min.js for your project
 
 ## Use cases
+
+```
+// GLOBAL.mediaConnection = mediaConnection; 
+// when mediaConnection established
+//   if (GLOBAL.mediaConnection && GLOBAL.mediaConnection.open)
+
+    // Receiving side
+    GLOBAL.mediaConnection.setBandwidth({audio: 256, video: 500); 
+
+    // Sending side
+    GLOBAL.mediaConnection.addTrack(newTrack); // video or audio
+
+    GLOBAL.mediaConnection.removeTrack(trackToBeRemoved); // video or audio
+
+    GLOBAL.mediaConnection.replaceTrack(old, new); // not tested
+
+```
+###How to detect addTrack/removeTrack at receiving side
+
+
+```
+// This event fires only when a mediaConnection is established
+   mediaConnection.on('stream', (stream) => { // Caller and Callee
+
+   stream.onaddtrack = e => {
+      playReceivingStream(stream); 
+   }
+
+   stream.onremovetrack = e => {
+      playReceivingStream(stream);
+   }
+
+```
+Note: Removed senders (RTCPeerConnection.remoteTrack(sender)) does not stop sending track but in 0 kbps. It is in investigation.
