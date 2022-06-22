@@ -59,7 +59,7 @@ class SdpUtil {
     return this._addBandwidth(sdp, bandwidth, 'audio');
   }
 
- /**
+  /**
    *  setOpusConfig(sdp); // by KG
    */
   setOpusConfig(sdp) {
@@ -76,7 +76,6 @@ class SdpUtil {
     return sdpTransform.write(res);
   }
   /* End added by KG */
-
 
   /**
    * Remove video codecs in SDP except argument's codec.

@@ -121,12 +121,12 @@ class MediaConnection extends Connection {
     this.localStream = newStream;
   }
 
- /*
+  /*
    * new methods by KG
    */
 
   setBandwidth(newBandwidth) {
-//    logger.log('KG mediaConnection.setBandwidth()');
+    //logger.log('KG mediaConnection.setBandwidth()');
     if (!this.open) return;
     this._negotiator.setBandwidth(newBandwidth);
   }
@@ -136,7 +136,7 @@ class MediaConnection extends Connection {
     this._negotiator.replaceTrack(oldTrack, newTrack);
   }
 
- addTrack(newTrack) {
+  addTrack(newTrack) {
     if (!this.open) return;
     try {
       if (this.localStream)
@@ -146,12 +146,12 @@ class MediaConnection extends Connection {
     }
   }
 
- removeTrack(currentTrack) {
+  removeTrack(currentTrack) {
     logger.log('KG mediaConnection removeTrack()');
     if (!this.open) return;
     this._negotiator.removeTrack(currentTrack);
   }
-/* END added by KG */
+  /* END added by KG */
 
   /**
    * Set up negotiator message handlers.

@@ -27,10 +27,13 @@
 - src/peer/mediaConnection.js
 - src/peer/negotiator.js
 
-## build
+## Build
 Follow the instruction in the original README.md.
-- npm install; npm run build
 - Note: Use LTS version of Node.js (tested with v16.15.1)
 	- node/18.2.0 did not work for me
+- npm install
+- npm run lint; npm run test
+- npm run build
+- use dist/skyway.js or skyway.min.js for your project
 
-
+## Use cases
