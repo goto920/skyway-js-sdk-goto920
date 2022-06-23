@@ -173,13 +173,17 @@ class Negotiator extends EventEmitter {
   async setBandwidth(newBandwidth) {
     //logger.log('KG negotiator setBandwidth()');
 
-    this._audioBandwidth = newBandwidth.audio;
-    this._videoBandwidth = newBandwidth.video;
+    try {
+      this._audioBandwidth = newBandwidth.audio;
+      this._videoBandwidth = newBandwidth.video;
 
-    const offer = await this._makeOfferSdp();
-    this._setLocalDescription(offer);
-    this._isNegotiationAllowed = true;
-    this.emit(Negotiator.EVENTS.negotiationNeeded.key);
+      const offer = await this._makeOfferSdp();
+      await this._setLocalDescription(offer);
+      this._isNegotiationAllowed = true;
+      this.emit(Negotiator.EVENTS.negotiationNeeded.key);
+    } catch (e) {
+      logger.error(e);
+    }
   }
 
   replaceTrack(oldTrack, newTrack) {
@@ -199,7 +203,7 @@ class Negotiator extends EventEmitter {
     try {
       this._pc.addTrack(newTrack, stream);
       const offer = await this._makeOfferSdp();
-      this._setLocalDescription(offer);
+      await this._setLocalDescription(offer);
       this._isNegotiationAllowed = true;
       this.emit(Negotiator.EVENTS.negotiationNeeded.key);
     } catch (e) {
@@ -227,7 +231,7 @@ class Negotiator extends EventEmitter {
         }
       });
       const offer = await this._makeOfferSdp();
-      this._setLocalDescription(offer);
+      await this._setLocalDescription(offer);
       this._isNegotiationAllowed = true;
       this.emit(Negotiator.EVENTS.negotiationNeeded.key);
     } catch (e) {
@@ -489,6 +493,8 @@ class Negotiator extends EventEmitter {
       offer.sdp = sdpUtil.filterVideoCodec(offer.sdp, this._videoCodec);
     }
 
+    offer.sdp = sdpUtil.setOpusConfig(offer.sdp); // added by KG
+
     return offer;
   }
 
@@ -524,6 +530,8 @@ class Negotiator extends EventEmitter {
     if (this._videoCodec) {
       answer.sdp = sdpUtil.filterVideoCodec(answer.sdp, this._videoCodec);
     }
+
+    answer.sdp = sdpUtil.setOpusConfig(answer.sdp); // added by KG
 
     try {
       await this._pc.setLocalDescription(answer);
