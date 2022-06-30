@@ -62,7 +62,8 @@ class SdpUtil {
   /**
    *  setOpusConfig(sdp); // by KG
    */
-  setOpusConfig(sdp) {
+  setOpusConfig(sdp,maxkbps) {
+    const maxbps = maxkbps*1000;
     const res = sdpTransform.parse(sdp);
     const audioMedia = res.media.filter(m => m.type === 'audio');
 
@@ -70,7 +71,9 @@ class SdpUtil {
       const opusRtp = m.rtp.filter(rtp => rtp.codec === 'opus');
       opusRtp.forEach(rtp => {
         const opusFmtp = m.fmtp.find(fmtp => fmtp.payload === rtp.payload);
-        if (opusFmtp) opusFmtp.config = 'maxptime=10;stereo=1;useinbandfec=1';
+        if (opusFmtp) opusFmtp.config = 
+          // `maxptime=10;stereo=1;useinbandfec=1;maxaveragebitrate=${maxbps}`;
+          'maxptime=10;stereo=1;useinbandfec=1';
       });
     });
     return sdpTransform.write(res);

@@ -493,7 +493,8 @@ class Negotiator extends EventEmitter {
       offer.sdp = sdpUtil.filterVideoCodec(offer.sdp, this._videoCodec);
     }
 
-    offer.sdp = sdpUtil.setOpusConfig(offer.sdp); // added by KG
+    offer.sdp = sdpUtil.setOpusConfig(offer.sdp,this._audioBandwidth); 
+     // added by KG
 
     return offer;
   }

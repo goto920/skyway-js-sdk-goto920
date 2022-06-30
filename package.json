@@ -1,6 +1,6 @@
 {
   "name": "skyway-js",
-  "version": "4.4.4-goto920",
+  "version": "4.4.4-goto920-20220701",
   "description": "Modified JavaScript SDK for SkyWay",
   "main": "dist/skyway.js",
   "types": "skyway-js.d.ts",
