@@ -147,7 +147,7 @@ class MediaConnection extends Connection {
   }
 
   removeTrack(currentTrack) {
-    logger.log('KG mediaConnection removeTrack()');
+    logger.warn('KG mediaConnection removeTrack()');
     if (!this.open) return;
     this._negotiator.removeTrack(currentTrack);
   }

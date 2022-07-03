@@ -172,7 +172,6 @@ class Negotiator extends EventEmitter {
    */
   async setBandwidth(newBandwidth) {
     //logger.log('KG negotiator setBandwidth()');
-
     try {
       this._audioBandwidth = newBandwidth.audio;
       this._videoBandwidth = newBandwidth.video;
@@ -213,21 +212,23 @@ class Negotiator extends EventEmitter {
   }
 
   async removeTrack(currentTrack) {
-    //logger.log('KG NEGOTOR removeTrack() called, pc', this._pc);
+    logger.warn('KG NEGOTOR removeTrack() called, pc', this._pc);
     try {
       const senders = this._pc.getSenders();
 
       senders.forEach(s => {
         if (s.track) {
           if (s.track.id === currentTrack.id) {
-            //logger.log('removed currentTrack, sender', currentTrack, s);
+            logger.warn('removed currentTrack, sender', currentTrack, s);
             this._pc.removeTrack(s);
-            s = null;
-          }
+            s.track.stop();
+          } 
+          logger.warn('removed currentTrack, sender not found', 
+            currentTrack.id, s.track.id);
         } else {
-          //logger.log('removed sender without track', s);
+          logger.warn('removed sender without track', s);
           this._pc.removeTrack(s);
-          s = null;
+          s.track.stop();
         }
       });
       const offer = await this._makeOfferSdp();
