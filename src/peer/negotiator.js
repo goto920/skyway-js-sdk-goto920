@@ -533,7 +533,8 @@ class Negotiator extends EventEmitter {
       answer.sdp = sdpUtil.filterVideoCodec(answer.sdp, this._videoCodec);
     }
 
-    answer.sdp = sdpUtil.setOpusConfig(answer.sdp); // added by KG
+    answer.sdp = sdpUtil.setOpusConfig(answer.sdp,this._audioBandwidth); 
+    // added by KG
 
     try {
       await this._pc.setLocalDescription(answer);

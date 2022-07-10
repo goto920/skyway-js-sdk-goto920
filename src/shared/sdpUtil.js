@@ -74,8 +74,8 @@ class SdpUtil {
         const opusFmtp = m.fmtp.find(fmtp => fmtp.payload === rtp.payload);
         if (opusFmtp) opusFmtp.config = 
           'maxptime=10;stereo=1;useinbandfec=1;maxaveragebitrate=256000';
-          // `maxptime=10;stereo=1;useinbandfec=1;maxaveragebitrate=${maxbps}`;
-          // 'maxptime=10;stereo=1;useinbandfec=1';
+       // 'maxptime=3;stereo=1;useinbandfec=1;maxaveragebitrate=256000;cbr=1';
+       // 'maxptime=10;stereo=1;useinbandfec=1';
       });
     });
     return sdpTransform.write(res);
