@@ -534,7 +534,7 @@ class Negotiator extends EventEmitter {
     }
 
     answer.sdp = sdpUtil.setOpusConfig(answer.sdp,this._audioBandwidth); 
-    // added by KG
+      // added by KG
 
     try {
       await this._pc.setLocalDescription(answer);

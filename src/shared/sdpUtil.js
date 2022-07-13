@@ -1,5 +1,6 @@
 import sdpTransform from 'sdp-transform';
 import { Interop } from '@jitsi/sdp-interop';
+import logger from './logger'; // temporary by KG
 
 /**
  * Class that contains utility functions for SDP munging.
@@ -59,23 +60,33 @@ class SdpUtil {
     return this._addBandwidth(sdp, bandwidth, 'audio');
   }
 
-  /**
-   *  setOpusConfig(sdp); // by KG
+  /*
+   * setOpusConfig(sdp,maxkbps); // by KG
+   * https://datatracker.ietf.org/doc/html/rfc7587#section-7
    */
   setOpusConfig(sdp,maxkbps) {
-    // const maxbps = maxkbps*1000;
-    const maxbps = '256000';
+    const maxbps = (maxkbps*1000).toString();
     const res = sdpTransform.parse(sdp);
     const audioMedia = res.media.filter(m => m.type === 'audio');
 
     audioMedia.forEach(m => {
       const opusRtp = m.rtp.filter(rtp => rtp.codec === 'opus');
+        logger.warn('OpusRTP\n', JSON.stringify(opusRtp));
       opusRtp.forEach(rtp => {
         const opusFmtp = m.fmtp.find(fmtp => fmtp.payload === rtp.payload);
-        if (opusFmtp) opusFmtp.config = 
-          'maxptime=10;stereo=1;useinbandfec=1;maxaveragebitrate=256000';
-       // 'maxptime=3;stereo=1;useinbandfec=1;maxaveragebitrate=256000;cbr=1';
-       // 'maxptime=10;stereo=1;useinbandfec=1';
+        logger.warn('opusFmtp before\n', JSON.stringify(opusFmtp));
+        if (opusFmtp) {
+          opusFmtp.config 
+           // = 'stereo=1;useinbandfec=1';
+       //  = 'stereo=1;useinbandfec=1;cbr=1';
+       //  = 'sprop-stereo=1;stereo=1;useinbandfec=1;cbr=1';
+    // = 'sprop-stereo=1;stereo=1;useinbandfec=1;cbr=1;maxaveragebitrate=510000';
+    = 'sprop-stereo=1;stereo=1;useinbandfec=1;'
+         +`cbr=1;maxaveragebitrate=${maxbps}`;
+          m.ptime = '10';
+        //  m.maxptime = '20';
+        }
+        logger.warn('m=audio After\n', JSON.stringify(m));
       });
     });
     return sdpTransform.write(res);
