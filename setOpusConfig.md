@@ -9,10 +9,9 @@
 - setOpusConfig(sdp,maxbps) (shared/sdpUtils.js)
 	- called from Negotiator._makeOfferSdp() - no user interaction
 	- maxbps is set in SkyWay audioBandwidth option or 
-	- MediaConnection.setBandwidth() (new method below)
-## Modified files
+	- MediaConnection.setBandwidth() (added by KG)
+## Modified files for setOpusConfig()
 - src/shared/sdpUtils.js
-- src/peer/mediaConnection.js
 - src/peer/negotiator.js
 
 ## The code (negotiator.js)
@@ -47,6 +46,7 @@
     const res = sdpTransform.parse(sdp);
     const audioMedia = res.media.filter(m => m.type === 'audio');
 
+    // find fmtp line for opus in each m= block)
     audioMedia.forEach(m => {
       const opusRtp = m.rtp.filter(rtp => rtp.codec === 'opus');
         logger.warn('OpusRTP\n', JSON.stringify(opusRtp));
