@@ -38,9 +38,6 @@
 ```
 ## The code (sdpUtils.js)
 ```
-   * setOpusConfig(sdp,maxkbps); // by KG
-   * https://datatracker.ietf.org/doc/html/rfc7587#section-7
-   */
   setOpusConfig(sdp,maxkbps) {
     const maxbps = (maxkbps*1000).toString();
     const res = sdpTransform.parse(sdp);
