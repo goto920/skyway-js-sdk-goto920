@@ -1,4 +1,4 @@
-# OpusConfig (Experimental project)
+# setOpusConfig() (Experimental project)
 
 [original README.md](./README-original.md)
 
