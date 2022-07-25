@@ -198,7 +198,6 @@ class Negotiator extends EventEmitter {
   }
 
   async addTrack(newTrack, stream) {
-    //logger.log('KG NEGOTIATOR addTrack() called');
     try {
       this._pc.addTrack(newTrack, stream);
       const offer = await this._makeOfferSdp();

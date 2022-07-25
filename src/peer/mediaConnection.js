@@ -126,7 +126,6 @@ class MediaConnection extends Connection {
    */
 
   setBandwidth(newBandwidth) {
-    //logger.log('KG mediaConnection.setBandwidth()');
     if (!this.open) return;
     this._negotiator.setBandwidth(newBandwidth);
   }

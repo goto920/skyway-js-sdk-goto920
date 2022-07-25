@@ -1,7 +1,5 @@
 # setOpusConfig() (Experimental project)
 
-[original README.md](./README-original.md)
-
 ## Modify opus parameters in SDP Offer/Answer (update: July 26, 2022)
 	- Reason 1: Chrome does not set stereo=1
 	- Reason 2: set ptime to reduce encoding latency (in experiment)

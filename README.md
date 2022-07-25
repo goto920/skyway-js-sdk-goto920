@@ -18,18 +18,23 @@ m.ptime = '3'; // min in RFC (3,5,10,20,....)
 m.maxptime = '20'; // default in RFC (crashes if included in fmtp)
 
 ```
-[detail setOpusConfig.md](./setOpusConfig.md)
+details: [setOpusConfig.md](./setOpusConfig.md)
 
 ## Added methods to MediaConnection (part of the API)
 
 - MediaConnection.setBandwidth({audio: audioKbps, video: videoKbps})
 	- to change max kbps during a session
+	- details: [setBandwidth.md](./setBandwidth.md)
 - MediaConnection.addTrack(newTrack)
 	- to add a track during a session
+	- details: [addTrack.md](./addTrack.md)
 - MediaConnection.removeTrack(track)
 	- to remove a track during a session
+	- details: [removeTrack.md](./removeTrack.md)
+	- Note: The track cannot be really removed from the receiving stream. RTP transmission with 0 bps stays alive.
 - MediaConnection.replateTrack(oldTrack, newTrack) // not tested yet
 	- to replace same kind of track
+	- details: [replaceTrack.md](./replaceTrack.md)
 
 ## Modified files
 - src/shared/sdpUtils.js
