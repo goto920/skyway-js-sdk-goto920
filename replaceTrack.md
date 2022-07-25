@@ -1,6 +1,6 @@
 # replateTrack() (Experimental project, not tested yet)
 
-## MediaConnection.replace(oldTrack, newTrack)
+## MediaConnection.replaceTrack(oldTrack, newTrack)
         - replace audio/video track during a session
 
 ## Modified files for replaceTrack()
