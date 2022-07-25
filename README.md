@@ -2,14 +2,22 @@
 
 [original README.md](./README-original.md)
 
-## Modify opus parameters in SDP Offer/Answer
-
-- setOpusConfig(sdp) (shared/sdpUtils.js)
-	- called from Negotiator._makeOfferSdp()
-		- no user interaction
-	- 'maxptime=10;stereo=1;useinbandfec=1' (fixed parameters)
+## Modify opus parameters in SDP Offer/Answer (update: July 26, 2022)
 	- Reason 1: Chrome does not set stereo=1
-	- Reason 2: set maxptime to reduce encoding latency (in experiment)
+	- Reason 2: set ptime to reduce encoding latency (in experiment)
+	- Reason 3: use cbr (constant bit rate)
+- setOpusConfig(sdp,maxbps) (shared/sdpUtils.js)
+	- called from Negotiator._makeOfferSdp() - no user interaction
+	- maxbps is set in SkyWay audioBandwidth option or 
+	- MediaConnection.setBandwidth() (new method below)
+```
+fmtp for opus
+ 'sprop-stereo=1;stereo=1;useinbandfec=1;cbr=1;'
+ +`maxaveragebitrate=${maxbps}`; // especially for sender in Firefox
+m.ptime = '3'; // min in RFC (3,5,10,20,....)
+m.maxptime = '20'; // default in RFC (crashes if included in fmtp)
+
+```
 
 ## Added methods to MediaConnection (part of the API)
 
@@ -44,7 +52,8 @@ Follow the instruction in the original README.md.
 //   if (GLOBAL.mediaConnection && GLOBAL.mediaConnection.open)
 
     // Receiving side
-    GLOBAL.mediaConnection.setBandwidth({audio: 256, video: 500); 
+    GLOBAL.mediaConnection.setBandwidth({audio: 256, video: 500);
+    // max 510 for audio (falls back to 64 kbps if lager value is set)
 
     // Sending side
     GLOBAL.mediaConnection.addTrack(newTrack); // video or audio

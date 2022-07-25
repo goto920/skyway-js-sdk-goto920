@@ -80,11 +80,11 @@ class SdpUtil {
            // = 'stereo=1;useinbandfec=1';
        //  = 'stereo=1;useinbandfec=1;cbr=1';
        //  = 'sprop-stereo=1;stereo=1;useinbandfec=1;cbr=1';
-    // = 'sprop-stereo=1;stereo=1;useinbandfec=1;cbr=1;maxaveragebitrate=510000';
-    = 'sprop-stereo=1;stereo=1;useinbandfec=1;'
-         +`cbr=1;maxaveragebitrate=${maxbps}`;
-          m.ptime = '10';
-        //  m.maxptime = '20';
+  // = 'sprop-stereo=1;stereo=1;useinbandfec=1;cbr=1;maxaveragebitrate=510000';
+        = 'sprop-stereo=1;stereo=1;useinbandfec=1;cbr=1;'
+          +`maxaveragebitrate=${maxbps}`; // especially for sender in Firefox
+          m.ptime = '3'; // min in RFC (3,5,10,20,....)
+          m.maxptime = '20'; // default in RFC
         }
         logger.warn('m=audio After\n', JSON.stringify(m));
       });
