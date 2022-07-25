@@ -18,6 +18,7 @@ m.ptime = '3'; // min in RFC (3,5,10,20,....)
 m.maxptime = '20'; // default in RFC (crashes if included in fmtp)
 
 ```
+[detail setOpusConfig.md](./setOpusConfig.md)
 
 ## Added methods to MediaConnection (part of the API)
 
