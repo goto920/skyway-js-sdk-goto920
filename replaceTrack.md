@@ -3,7 +3,7 @@
 ## MediaConnection.replace(oldTrack, newTrack)
         - replace audio/video track during a session
 
-## Modified files for addTrack()
+## Modified files for replaceTrack()
 - src/peer/mediaConnection.js
 - src/peer/negotiator.js
 
