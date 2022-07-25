@@ -53,10 +53,10 @@
         if (opusFmtp) {
           opusFmtp.config 
         = 'sprop-stereo=1;stereo=1;useinbandfec=1;cbr=1;'
-          +`maxaveragebitrate=${maxbps}`; // especially for sender in Firefox
+          +`maxaveragebitrate=${maxbps}`; 
+          // especially for Firefox, which ignores TIAS for audio
           m.ptime = '3'; // min in RFC (3,5,10,20,....)
           m.maxptime = '20'; // default in RFC
-         // Firefox ignore TIAS for audio
         }
         logger.warn('m=audio After\n', JSON.stringify(m));
       });
